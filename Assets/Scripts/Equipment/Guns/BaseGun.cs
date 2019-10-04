@@ -13,8 +13,8 @@ public class BaseGun : Equipment
     [SerializeField] float bulletDamage = 20f;
     [SerializeField] float bulletSpeed = 20f;
     [Space]
-    [SerializeField] protected EquipmentSlot slot;
-    public override EquipmentSlot Slot { get { return slot; } }
+    [SerializeField] protected EquipmentSlotType slot;
+    public override EquipmentSlotType SlotType { get { return slot; } }
 
     public override void PrimaryUse()
     {
