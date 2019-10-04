@@ -9,12 +9,14 @@ public class BaseGun : Equipment
     [SerializeField] Transform muzzleTransform;
 
     [Header("Gun Options")]
-    [SerializeField] float fireDelay = 10f;
+    [SerializeField] float fireDelay = 0.1f;
     [SerializeField] float bulletDamage = 20f;
     [SerializeField] float bulletSpeed = 20f;
     [Space]
-    [SerializeField] protected EquipmentSlotType slot;
-    public override EquipmentSlotType SlotType { get { return slot; } }
+    [SerializeField] protected EquipmentSlotType slotType;
+    public override EquipmentSlotType SlotType { get { return slotType; } }
+
+    private float shootTimer = 0f;
 
     public override void PrimaryUse()
     {
@@ -28,8 +30,13 @@ public class BaseGun : Equipment
 
     protected virtual void Shoot()
     {
-        Projectile pro = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
-        pro.Shoot(bulletSpeed, bulletDamage);
+        if (Time.time > shootTimer)
+        {
+            shootTimer = Time.time + fireDelay;
+
+            Projectile pro = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
+            pro.Shoot(bulletSpeed, bulletDamage);
+        }
     }
 
     protected virtual void Aim()

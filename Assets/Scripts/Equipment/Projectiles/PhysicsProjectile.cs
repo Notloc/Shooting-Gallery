@@ -22,23 +22,23 @@ public class PhysicsProjectile : Projectile
     private void FixedUpdate()
     {
         // Update rotation
-        this.transform.rotation = Quaternion.LookRotation(velocity);
+        this.rigidbody.rotation = Quaternion.LookRotation(velocity);
 
         // Try to hit something
         RaycastHit hit;
-        if (Physics.Raycast(this.transform.position, velocity, out hit, velocity.magnitude))
+        if (Physics.Raycast(this.rigidbody.position, velocity, out hit, velocity.magnitude * Time.fixedDeltaTime))
         {
             IDamagable damagable = hit.collider.GetComponentInParent<IDamagable>();
             if (damagable != null)
-            {
                 damagable.Damage(damage);
-            }
+
+            Destroy(this.gameObject);
         }
 
         // Move and update velocity
-        rigidbody.MovePosition(rigidbody.position + velocity);
+        rigidbody.MovePosition(rigidbody.position + (velocity * Time.fixedDeltaTime));
 
-        velocity.y += gravity;
-        velocity *= (1f - airResistance);
+        velocity.y += (gravity * Time.fixedDeltaTime);
+        velocity *= (1f - (airResistance * Time.fixedDeltaTime));
     }
 }
