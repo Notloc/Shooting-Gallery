@@ -81,7 +81,7 @@ MonoBehaviour:
   movementSpeed: 4.5
   sprintMultiplier: 1.7
   velocityDecayMultiplier: 0.85
-  jumpForce: 15
+  jumpForce: 150
   xSensitivity: 3
   ySensitivity: 3
   minCameraPitch: -80
