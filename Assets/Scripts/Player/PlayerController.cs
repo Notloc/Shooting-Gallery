@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour
     [Header("Ground Raycast Options")]
     [SerializeField] Vector3 groundCastOffset;
     [SerializeField] float groundCastLength = 0.03f;
+    [SerializeField] [Range(4,12)] int numberOfGroundCasts = 4;
+    [SerializeField] [Range(0.01f, 0.5f)] float groundCastRadius = 0.1f;
     [SerializeField] LayerMask groundCastLayerMask;
 
     private float inputX, inputY, viewX, viewY;
@@ -60,7 +62,30 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateGrounded()
     {
-        isGrounded = Physics.Raycast(this.transform.position + groundCastOffset, Vector3.down, groundCastLength, groundCastLayerMask);
+        float angleStep = 360f / (float)numberOfGroundCasts;
+
+#if UNITY_EDITOR
+        // Show rays in the editor
+        for (int i = 0; i < numberOfGroundCasts; i++)
+        {
+            Vector3 circluarOffset = Vector3.forward * groundCastRadius;
+            circluarOffset = Quaternion.Euler(0f, i * angleStep, 0f) * circluarOffset;
+            Debug.DrawRay(this.transform.position + circluarOffset + groundCastOffset, Vector3.down * groundCastLength, Color.green);
+        }
+#endif
+
+        for (int i=0; i<numberOfGroundCasts; i++)
+        {
+            Vector3 circluarOffset = Vector3.forward * groundCastRadius;
+            circluarOffset = Quaternion.Euler(0f, i * angleStep, 0f) * circluarOffset;
+
+            if (Physics.Raycast(this.transform.position + circluarOffset + groundCastOffset, Vector3.down, groundCastLength, groundCastLayerMask))
+            {
+                isGrounded = true;
+                return;
+            }
+        }
+        isGrounded = false;
     }
 
     private void Rotate()

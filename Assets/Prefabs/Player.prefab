@@ -87,7 +87,9 @@ MonoBehaviour:
   minCameraPitch: -80
   maxCameraPitch: 80
   groundCastOffset: {x: 0, y: 0.05, z: 0}
-  groundCastLength: 0.06
+  groundCastLength: 0.07
+  numberOfGroundCasts: 6
+  groundCastRadius: 0.3
   groundCastLayerMask:
     serializedVersion: 2
     m_Bits: 1
