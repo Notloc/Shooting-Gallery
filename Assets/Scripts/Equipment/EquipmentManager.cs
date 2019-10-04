@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum EquipmentSlot
 {
@@ -24,6 +25,9 @@ public class EquipmentManager : MonoBehaviour
     Dictionary<EquipmentSlot, Equipment> equipment;
     Dictionary<EquipmentSlot, Transform> equipmentSlots;
 
+    public UnityAction<Equipment> OnEquip;
+    public UnityAction<Equipment> OnUnequip;
+
     private void Awake()
     {
         equipment = new Dictionary<EquipmentSlot, Equipment>();
@@ -42,6 +46,7 @@ public class EquipmentManager : MonoBehaviour
         newEquip.transform.SetParent(equipmentSlots[slot]);
         newEquip.transform.ResetLocal();
         equipment.Add(slot, newEquip);
+        OnEquip?.Invoke(newEquip);
         return true;
     }
 
