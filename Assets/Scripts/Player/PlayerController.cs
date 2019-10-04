@@ -8,8 +8,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] new Rigidbody rigidbody;
     [SerializeField] new Camera camera;
 
-    [Header("Options")]
+    [Header("Movement Options")]
     [SerializeField] float movementForce = 20f;
+    [SerializeField] float movementSpeed = 5f;
+    [SerializeField] float sprintMultiplier = 1.75f;
+    [SerializeField] float velocityDecayMultiplier = 0.9f;
+    [Space]
+    [SerializeField] float jumpForce = 15f;
     [Space]
     [SerializeField] float xSensitivity = 3f;
     [SerializeField] float ySensitivity = 3f;
@@ -17,8 +22,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float minCameraPitch = -80f;
     [SerializeField] float maxCameraPitch = 80f;
 
+    [Header("Ground Raycast Options")]
+    [SerializeField] Vector3 groundCastOffset;
+    [SerializeField] float groundCastLength = 0.03f;
+    [SerializeField] LayerMask groundCastLayerMask;
 
     private float inputX, inputY, viewX, viewY;
+    private bool hasMovementInput, isSprinting, jumped;
+
+
+    private bool isGrounded = false;
     private float currentCameraRot = 0f;
     private void Update()
     {
@@ -28,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        UpdateGrounded();
         Move();
     }
 
@@ -38,6 +52,15 @@ public class PlayerController : MonoBehaviour
 
         viewX = Input.GetAxis(ControlBindings.VIEW_X);
         viewY = Input.GetAxis(ControlBindings.VIEW_Y);
+
+        hasMovementInput = inputX != 0 || inputY != 0;
+        isSprinting = Input.GetButton(ControlBindings.SPRINT);
+        jumped = jumped || Input.GetButtonDown(ControlBindings.JUMP);
+    }
+
+    private void UpdateGrounded()
+    {
+        isGrounded = Physics.Raycast(this.transform.position + groundCastOffset, Vector3.down, groundCastLength, groundCastLayerMask);
     }
 
     private void Rotate()
@@ -53,11 +76,57 @@ public class PlayerController : MonoBehaviour
 
     private void Move()
     {
-        Vector3 force = new Vector3(inputX, 0f, inputY);
-        if (force.sqrMagnitude > 1f)
-            force = force.normalized;
-        force *= movementForce;
+        if (isGrounded)
+        {
+            if (jumped)
+            {
+                jumped = false;
 
-        rigidbody.AddRelativeForce(force);
+                rigidbody.AddForce(Vector3.up * jumpForce);
+            }
+
+            if (hasMovementInput)
+            {
+                Vector3 force = new Vector3(inputX, 0f, inputY);
+                if (force.sqrMagnitude > 1f)
+                    force = force.normalized;
+
+                force *= movementForce;
+                if (isSprinting)
+                    force *= sprintMultiplier;
+
+                rigidbody.AddRelativeForce(force);
+                rigidbody.velocity = ClampPlayerVelocity(rigidbody.velocity);
+            }
+            else
+            { // Lose velocity quickly
+                float oldY = rigidbody.velocity.y; // Preserve gravity;
+
+                Vector3 newVelocity = rigidbody.velocity * velocityDecayMultiplier;
+                newVelocity.y = oldY;
+
+                rigidbody.velocity = newVelocity;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Clamps the players velocity, excluding the y axis
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private Vector3 ClampPlayerVelocity(Vector3 input)
+    {
+        float oldY = input.y;
+        input.y = 0;
+
+        float max = movementSpeed;
+        if (isSprinting)
+            max *= sprintMultiplier;
+
+        input = Vector3.ClampMagnitude(input, max);
+        input.y = oldY;
+
+        return input;
     }
 }

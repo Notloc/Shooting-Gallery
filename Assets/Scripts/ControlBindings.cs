@@ -12,4 +12,7 @@ public static class ControlBindings
 
     public static string VIEW_X = "Mouse X";
     public static string VIEW_Y = "Mouse Y";
+
+    public static string JUMP = "Jump";
+    public static string SPRINT = "Sprint";
 }
