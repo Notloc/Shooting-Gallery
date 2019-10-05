@@ -1,33 +1,35 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BaseGun : Equipment
 {
-    [Header("Required References")]
-    [SerializeField] Projectile projectilePrefab;
-    [SerializeField] Transform muzzleTransform;
-
     [Header("Gun Options")]
     [SerializeField] protected EquipmentSlotType slotType;
-    [Space]
-    [SerializeField] float fireDelay = 0.1f;
+    [Header(" - Projectile")]
+    [SerializeField] Projectile projectilePrefab;
+    [SerializeField] Transform muzzleTransform;
     [SerializeField] float bulletDamage = 20f;
     [SerializeField] float bulletSpeed = 20f;
-    [Space]
-    [SerializeField] float aimSpeed = 5f;
-    [SerializeField] [Range(0f, 2f)] float accuracyRecoveryRate = 0.5f;
+    [SerializeField] float fireDelay = 0.1f;
+    [SerializeField] Vector3 kickBack;
+    [SerializeField] float recenterSpeed = 15f;
+    
+    [Header(" - Aiming")]
+    [SerializeField] float aimingSpeed = 5f;
+    [SerializeField] float randomSpreadStrength = 5f;
+    [SerializeField] AnimationCurve randomSpreadCurve;
     [SerializeField] float inaccuracyPerShot = 0.2f;
+    [SerializeField] [Range(0f, 2f)] float accuracyRecoveryRate = 0.5f;
     [SerializeField] float inaccuracyStrength = 20f;
-    [SerializeField] float spreadStrength = 5f;
     [SerializeField] AnimationCurve inaccuracyXCurve;
     [SerializeField] AnimationCurve inaccuracyYCurve;
-    [SerializeField] AnimationCurve randomSpreadCurve;
+
+    [Header(" - Clip")]
+    [SerializeField] Clip clip;
+
 
     public override EquipmentSlotType SlotType { get { return slotType; } }
     private float shootTimer = 0f;
     private float inaccuracy = 0f;
-    private float spreadX, spreadY;
 
     public override void PrimaryUse()
     {
@@ -39,6 +41,11 @@ public class BaseGun : Equipment
         Aim();
     }
 
+    public void Reload()
+    {
+        clip.DoClipEffect();
+    }
+
     protected virtual void Shoot()
     {
         if (Time.time > shootTimer)
@@ -48,8 +55,9 @@ public class BaseGun : Equipment
             Projectile pro = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
             pro.Shoot(bulletSpeed, bulletDamage);
 
+            this.transform.localPosition += kickBack;
+
             IncreaseInaccuracy(inaccuracyPerShot);
-            UpdateSpread();
             ApplyInaccuracy();
         }
     }
@@ -66,7 +74,13 @@ public class BaseGun : Equipment
 
         Quaternion newRot = Quaternion.LookRotation(target - this.transform.position);
 
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, newRot, Time.deltaTime * aimSpeed);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, newRot, Time.deltaTime * aimingSpeed);
+    }
+
+    public void Recenter()
+    {
+        float dist = Mathf.Clamp(this.transform.localPosition.magnitude, 0.5f, 15f);
+        this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, Vector3.zero, Time.deltaTime * recenterSpeed * dist);
     }
 
     private void ApplyInaccuracy()
@@ -76,6 +90,11 @@ public class BaseGun : Equipment
 
         x *= inaccuracyStrength;
         y *= inaccuracyStrength;
+
+
+        float spreadMax = randomSpreadCurve.Evaluate(inaccuracy) * randomSpreadStrength;
+        float spreadX = Random.Range(-spreadMax, spreadMax);
+        float spreadY = Random.Range(-spreadMax, spreadMax);
 
         x += spreadX;
         y += spreadY;
@@ -90,17 +109,10 @@ public class BaseGun : Equipment
     }
     public void ReduceInaccuracy(float deltaTime)
     {
-        inaccuracy -= deltaTime * accuracyRecoveryRate;
-        float spreadRecoveryMult = Mathf.Clamp((1f - (accuracyRecoveryRate * deltaTime)), 0f, 1f);
-
-        spreadX *= spreadRecoveryMult;
-        spreadY *= spreadRecoveryMult;
-    }
-
-    private void UpdateSpread()
-    {
-        float spreadMax = randomSpreadCurve.Evaluate(inaccuracy) * spreadStrength;
-        spreadX = Random.Range(-spreadMax, spreadMax);
-        spreadY = Random.Range(-spreadMax, spreadMax);
+        if (shootTimer < Time.time)
+        {
+            inaccuracy -= deltaTime * accuracyRecoveryRate;
+            float spreadRecoveryMult = Mathf.Clamp((1f - (accuracyRecoveryRate * deltaTime)), 0f, 1f);
+        }
     }
 }

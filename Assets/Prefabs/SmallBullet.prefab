@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c78469af75a874b85a3ac2264c3be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bulletHole: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   rigidbody: {fileID: 6120150046959240612}
   gravity: -1
   airResistance: 0.01

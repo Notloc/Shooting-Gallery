@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5313435704486476189}
   - component: {fileID: 1866993680309277792}
   - component: {fileID: 7623302299456352888}
-  - component: {fileID: 8652396133590351814}
   m_Layer: 11
   m_Name: Rail
   m_TagString: Untagged
@@ -78,19 +77,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8652396133590351814
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3636563700922429872}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6641718846086928790
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,7 +88,6 @@ GameObject:
   - component: {fileID: 293941213901661489}
   - component: {fileID: 4243905075806950413}
   - component: {fileID: 4687854207082033837}
-  - component: {fileID: 8253976529464357516}
   m_Layer: 11
   m_Name: Muzzle
   m_TagString: Untagged
@@ -169,19 +154,115 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &8253976529464357516
+--- !u!1 &7005063943208727701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 802193899047748121}
+  - component: {fileID: 1098428647060591782}
+  - component: {fileID: 7148741365379498704}
+  - component: {fileID: 1651746486985180466}
+  - component: {fileID: 8569380548731790849}
+  m_Layer: 0
+  m_Name: Clip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &802193899047748121
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7005063943208727701}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.0025, z: -0}
+  m_LocalScale: {x: 0.020000001, y: 0.052, z: 0.022000002}
+  m_Children: []
+  m_Father: {fileID: 4148458578665519760}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1098428647060591782
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7005063943208727701}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &7148741365379498704
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7005063943208727701}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 0c081c62d19fa684aa92b52b405ef9e1, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!65 &1651746486985180466
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6641718846086928790}
+  m_GameObject: {fileID: 7005063943208727701}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &8569380548731790849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7005063943208727701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48511a5eb5bd5c04b9c157889dc9c1cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  clipPrefab: {fileID: 4258207503253790716, guid: f1b01c55b4a315343810f4c619569091,
+    type: 3}
+  clipLifeTime: 40
+  launchVector: {x: 0, y: 0, z: 0}
 --- !u!1 &8350693232455694486
 GameObject:
   m_ObjectHideFlags: 0
@@ -193,7 +274,6 @@ GameObject:
   - component: {fileID: 1417990657004230605}
   - component: {fileID: 3673207365978806114}
   - component: {fileID: 3884243288948052735}
-  - component: {fileID: 7935763384644705441}
   m_Layer: 11
   m_Name: Handle
   m_TagString: Untagged
@@ -260,19 +340,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &7935763384644705441
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8350693232455694486}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8932804797101504726
 GameObject:
   m_ObjectHideFlags: 0
@@ -304,6 +371,7 @@ Transform:
   - {fileID: 1417990657004230605}
   - {fileID: 5313435704486476189}
   - {fileID: 293941213901661489}
+  - {fileID: 802193899047748121}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -319,18 +387,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3609ef0dfec14447b8b8ddd1c673ac9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  slotType: 0
   projectilePrefab: {fileID: 114152927238169942, guid: cb79577a5d69dfe41997466132cdd516,
     type: 3}
   muzzleTransform: {fileID: 293941213901661489}
-  slotType: 0
-  fireDelay: 0.15
   bulletDamage: 20
   bulletSpeed: 25
-  aimSpeed: 5
+  fireDelay: 0.15
+  kickBack: {x: 0, y: 0, z: -0.1}
+  recenterSpeed: 15
+  aimingSpeed: 5
+  randomSpreadStrength: 5
+  randomSpreadCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.02
+      inSlope: -0.04782266
+      outSlope: -0.04782266
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.06641604
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -0.82063425
+      outSlope: -0.82063425
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.0651629
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  inaccuracyPerShot: 0.22
   accuracyRecoveryRate: 0.2
-  inaccuracyPerShot: 0.1
-  inaccuracyStrength: 8
-  spreadStrength: 6
+  inaccuracyStrength: 12
   inaccuracyXCurve:
     serializedVersion: 2
     m_Curve:
@@ -377,14 +471,14 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.45043817
-      value: 0.14935146
-      inSlope: 0.899416
-      outSlope: 0.899416
+      time: 0.43547034
+      value: 0.34824067
+      inSlope: -0.5253406
+      outSlope: -0.5253406
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.12515219
+      outWeight: 0.4043443
     - serializedVersion: 3
       time: 0.58007073
       value: 0.8927742
@@ -406,27 +500,4 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  randomSpreadCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.02
-      inSlope: -0.04782266
-      outSlope: -0.04782266
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.06641604
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: -0.82063425
-      outSlope: -0.82063425
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.0651629
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
+  clip: {fileID: 8569380548731790849}

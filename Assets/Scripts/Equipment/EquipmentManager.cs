@@ -94,7 +94,7 @@ public class EquipmentManager : MonoBehaviour
         }
         else
         {
-            if (equipment.ContainsKey(EquipmentSlot.RightHand) || equipment.ContainsKey(EquipmentSlot.LeftHand))
+            if (!equipment.ContainsKey(EquipmentSlot.RightHand) && !equipment.ContainsKey(EquipmentSlot.LeftHand))
                 return EquipmentSlot.RightHand;        
         }
         return EquipmentSlot.None;

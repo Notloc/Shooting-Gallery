@@ -12,19 +12,23 @@ public class GunManager : MonoBehaviour
 
     private HashSet<BaseGun> activeGuns;
 
-    private EquipmentManager manager;
+    private EquipmentManager equipmentManager;
     private void Awake()
     {
-        manager = GetComponent<EquipmentManager>();
+        equipmentManager = GetComponent<EquipmentManager>();
 
         activeGuns = new HashSet<BaseGun>();
 
-        manager.OnEquip += OnEquip;
-        manager.OnUnequip += OnUnequip;
+        equipmentManager.OnEquip += RegisterGun;
+        equipmentManager.OnUnequip += UnregisterGun;
     }
 
     private void Update()
     {
+        if (Input.GetButtonDown(ControlBindings.RELOAD))
+            foreach (var gun in activeGuns)
+                gun.Reload();
+
         foreach (var gun in activeGuns)
             ProcessGun(gun);
     }
@@ -33,31 +37,20 @@ public class GunManager : MonoBehaviour
     {
         gun.ReduceInaccuracy(Time.deltaTime);
         gun.AimAt(camera.transform.position + (camera.transform.forward * zeroingDistance));
+        gun.Recenter();
     }
 
-    private void OnEquip(Equipment equipment)
+    private void RegisterGun(Equipment equip)
     {
-        BaseGun gun = equipment as BaseGun;
-        if (gun)
-            RegisterGun(gun);
-    }
-
-    private void OnUnequip(Equipment equipment)
-    {
-        BaseGun gun = equipment as BaseGun;
-        if (gun)
-            UnregisterGun(gun);
-    }
-
-    private void RegisterGun(BaseGun gun)
-    {
-        if (activeGuns.Contains(gun) == false)
+        BaseGun gun = equip as BaseGun;
+        if (gun && !activeGuns.Contains(gun))
             activeGuns.Add(gun);
     }
 
-    private void UnregisterGun(BaseGun gun)
+    private void UnregisterGun(Equipment equip)
     {
-        if (activeGuns.Contains(gun))
+        BaseGun gun = equip as BaseGun;
+        if (gun && activeGuns.Contains(gun))
             activeGuns.Remove(gun);
     }
 }

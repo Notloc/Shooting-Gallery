@@ -34,9 +34,9 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance))
         {
-            Equipment equip = hit.collider.GetComponentInParent<Equipment>();
-            if (equip)
-                equipmentManager.Equip(equip);
+            Equipment equipment = hit.collider.GetComponentInParent<Equipment>();
+            if (equipment)
+                equipmentManager.Equip(equipment);
         }
     }
 }
