@@ -350,7 +350,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4148458578665519760}
   - component: {fileID: 5540408069153021898}
-  m_Layer: 11
+  - component: {fileID: 4195539429167276034}
+  m_Layer: 10
   m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -501,3 +502,16 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   clip: {fileID: 8569380548731790849}
+--- !u!135 &4195539429167276034
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8932804797101504726}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.2
+  m_Center: {x: 0, y: 0.05, z: 0.03}

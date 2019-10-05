@@ -11,6 +11,7 @@ public class GunManager : MonoBehaviour
     [SerializeField] float zeroingDistance;
 
     private HashSet<BaseGun> activeGuns;
+    public ICollection<BaseGun> ActiveGuns { get { return activeGuns; } }
 
     private EquipmentManager equipmentManager;
     private void Awake()

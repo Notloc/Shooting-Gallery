@@ -15,6 +15,8 @@ public class BaseGun : Equipment
     
     [Header(" - Aiming")]
     [SerializeField] float aimingSpeed = 5f;
+    [SerializeField] [Range(1f, 10f)] float aimingAccuracyStrength = 2;
+    [SerializeField] Vector3 aimingOffset;
     [SerializeField] float randomSpreadStrength = 5f;
     [SerializeField] AnimationCurve randomSpreadCurve;
     [SerializeField] float inaccuracyPerShot = 0.2f;
@@ -62,9 +64,52 @@ public class BaseGun : Equipment
         }
     }
 
+    bool isAiming;
+    Vector3 activeAimingOffset;
     protected virtual void Aim()
     {
+        isAiming = !isAiming;
+        if (isAiming)
+            activeAimingOffset = aimingOffset;
+        else
+            activeAimingOffset = Vector3.zero;
+    }
 
+    public Vector3 GetAim()
+    {
+        Vector3 forward = muzzleTransform.forward;
+
+        if (Time.time < shootTimer)
+        {
+            float dif = shootTimer - Time.time;
+
+            Vector3 target = Camera.main.transform.position + 
+                                Camera.main.transform.forward * 100f;
+            
+
+            Vector3 muzzleOffset = muzzleTransform.position - this.transform.position;
+            target -= muzzleOffset;
+
+            Quaternion newRot = Quaternion.LookRotation(target - this.transform.position);
+
+            Quaternion currentRot = this.transform.rotation;
+            while (Time.fixedDeltaTime < dif)
+            {
+                currentRot = Quaternion.Slerp(currentRot, newRot, Time.fixedDeltaTime * aimingSpeed);
+                dif -= Time.fixedDeltaTime;
+            }
+            currentRot = Quaternion.Slerp(currentRot, newRot, dif * aimingSpeed);
+
+
+            forward = (Quaternion.Inverse(this.transform.rotation) * currentRot) * forward;
+
+        }
+
+        RaycastHit hit;
+        if (Physics.Raycast(muzzleTransform.position, forward, out hit, 100f))
+            return hit.point;
+
+        return muzzleTransform.position + (muzzleTransform.forward * 100f);
     }
 
     public void AimAt(Vector3 target)
@@ -80,7 +125,7 @@ public class BaseGun : Equipment
     public void Recenter()
     {
         float dist = Mathf.Clamp(this.transform.localPosition.magnitude, 0.5f, 15f);
-        this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, Vector3.zero, Time.deltaTime * recenterSpeed * dist);
+        this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, Vector3.zero + activeAimingOffset, Time.deltaTime * recenterSpeed * dist);
     }
 
     private void ApplyInaccuracy()
@@ -98,6 +143,12 @@ public class BaseGun : Equipment
 
         x += spreadX;
         y += spreadY;
+
+        if (isAiming)
+        {
+            x /= aimingAccuracyStrength;
+            y /= aimingAccuracyStrength;
+        }
 
         this.transform.rotation *= Quaternion.Euler(-y, x, 0f);
     }

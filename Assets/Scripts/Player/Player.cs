@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
     private void Interact()
     {
         RaycastHit hit;
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance))
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance, interactionLayerMask))
         {
             Equipment equipment = hit.collider.GetComponentInParent<Equipment>();
             if (equipment)

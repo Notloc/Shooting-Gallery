@@ -520,7 +520,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4148458578665519760}
   - component: {fileID: 5540408069153021898}
-  m_Layer: 11
+  - component: {fileID: 2886652378447684942}
+  m_Layer: 10
   m_Name: AK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -568,6 +569,8 @@ MonoBehaviour:
   kickBack: {x: 0, y: 0, z: -0.1}
   recenterSpeed: 15
   aimingSpeed: 5
+  aimingAccuracyStrength: 2.75
+  aimingOffset: {x: -0.18, y: 0.03, z: -0.02}
   randomSpreadStrength: 5
   randomSpreadCurve:
     serializedVersion: 2
@@ -582,14 +585,14 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.027568921
     - serializedVersion: 3
-      time: 0.19870202
-      value: 0.58428645
-      inSlope: -4.136739
-      outSlope: -4.136739
+      time: 0.27389
+      value: 0.22598529
+      inSlope: 1.2901951
+      outSlope: 1.2901951
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.047045175
+      outWeight: 1
     - serializedVersion: 3
       time: 0.34214285
       value: 0.5876119
@@ -640,19 +643,28 @@ MonoBehaviour:
     m_RotationOrder: 4
   inaccuracyPerShot: 0.03
   accuracyRecoveryRate: 1
-  inaccuracyStrength: 12
+  inaccuracyStrength: 9
   inaccuracyXCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
       value: 0.001209259
-      inSlope: -1.430311
-      outSlope: -1.430311
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.20724057
+    - serializedVersion: 3
+      time: 0.2112782
+      value: -0.022930581
+      inSlope: -1.0451537
+      outSlope: -1.0451537
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.27660835
     - serializedVersion: 3
       time: 0.42379937
       value: -0.59410644
@@ -789,3 +801,16 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   clip: {fileID: 8173637135913277903}
+--- !u!135 &2886652378447684942
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8932804797101504726}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.15
+  m_Center: {x: 0, y: 0.07, z: 0.09}
