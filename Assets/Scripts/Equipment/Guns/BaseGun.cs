@@ -70,6 +70,12 @@ public class BaseGun : Equipment
         float spreadX = Random.Range(-spreadMax, spreadMax);
         float spreadY = Random.Range(-spreadMax, spreadMax);
 
+        if (isAiming)
+        {
+            spreadX /= aimingAccuracyStrength;
+            spreadY /= aimingAccuracyStrength;
+        }
+
         return Quaternion.Euler(spreadY, spreadX, 0f);
     }
 
