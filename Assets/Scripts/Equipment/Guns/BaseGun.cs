@@ -54,7 +54,7 @@ public class BaseGun : Equipment
         {
             shootTimer = Time.time + fireDelay;
 
-            Projectile pro = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation);
+            Projectile pro = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation * CalculateSpread());
             pro.Shoot(bulletSpeed, bulletDamage);
 
             this.transform.localPosition += kickBack;
@@ -62,6 +62,15 @@ public class BaseGun : Equipment
             IncreaseInaccuracy(inaccuracyPerShot);
             ApplyInaccuracy();
         }
+    }
+
+    private Quaternion CalculateSpread()
+    {
+        float spreadMax = randomSpreadCurve.Evaluate(inaccuracy) * randomSpreadStrength;
+        float spreadX = Random.Range(-spreadMax, spreadMax);
+        float spreadY = Random.Range(-spreadMax, spreadMax);
+
+        return Quaternion.Euler(spreadY, spreadX, 0f);
     }
 
     bool isAiming;
@@ -135,14 +144,6 @@ public class BaseGun : Equipment
 
         x *= inaccuracyStrength;
         y *= inaccuracyStrength;
-
-
-        float spreadMax = randomSpreadCurve.Evaluate(inaccuracy) * randomSpreadStrength;
-        float spreadX = Random.Range(-spreadMax, spreadMax);
-        float spreadY = Random.Range(-spreadMax, spreadMax);
-
-        x += spreadX;
-        y += spreadY;
 
         if (isAiming)
         {
