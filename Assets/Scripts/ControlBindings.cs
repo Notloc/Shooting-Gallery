@@ -15,4 +15,10 @@ public static class ControlBindings
 
     public static string JUMP = "Jump";
     public static string SPRINT = "Sprint";
+
+    public static string INTERACT = "Use";
+    public static string RELOAD = "Reload";
+
+    public static string FIRE_PRIMARY = "Fire";
+    public static string FIRE_SECONDARY = "Fire2";
 }

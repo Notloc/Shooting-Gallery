@@ -4,15 +4,39 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Required References")]
+    [SerializeField] new Camera camera;
+    [SerializeField] EquipmentManager equipmentManager;
 
-    // Update is called once per frame
+    [Header("Options")]
+    [SerializeField] float interactionDistance = 2f;
+    [SerializeField] LayerMask interactionLayerMask;
+
     void Update()
     {
-        
+        HandleInteraction();
+    }
+
+    private void HandleInteraction()
+    {
+        if (Input.GetButton(ControlBindings.FIRE_PRIMARY))
+            equipmentManager.UsePrimary();
+
+        if (Input.GetButton(ControlBindings.FIRE_SECONDARY))
+            equipmentManager.UseSecondary();
+
+        if (Input.GetButtonDown(ControlBindings.INTERACT))
+            Interact();
+    }
+
+    private void Interact()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance, interactionLayerMask))
+        {
+            Equipment equipment = hit.collider.GetComponentInParent<Equipment>();
+            if (equipment)
+                equipmentManager.Equip(equipment);
+        }
     }
 }
