@@ -6,12 +6,15 @@ using UnityEngine;
 public class GunManager : MonoBehaviour
 {
     [Header("Required Reference")]
-    [SerializeField] new Camera camera;
-    [Space]
-    [SerializeField] float zeroingDistance;
+    [SerializeField] Transform aimingPov;
+
+    [Header("Options")]
+    [SerializeField] bool toggleAim;
 
     private HashSet<BaseGun> activeGuns;
     public ICollection<BaseGun> ActiveGuns { get { return activeGuns; } }
+
+    private bool isAiming = false;
 
     private EquipmentManager equipmentManager;
     private void Awake()
@@ -26,6 +29,26 @@ public class GunManager : MonoBehaviour
 
     private void Update()
     {
+        if (toggleAim)
+        {
+            if (Input.GetButtonDown(ControlBindings.AIM))
+            {
+                isAiming = !isAiming;
+                foreach (var gun in activeGuns)
+                    gun.SetADS(isAiming);
+            }
+        }
+        else
+        {
+            bool newState = Input.GetButton(ControlBindings.AIM);
+            if (isAiming != newState)
+            {
+                isAiming = newState;
+                foreach (var gun in activeGuns)
+                    gun.SetADS(isAiming);
+            }
+        }  
+
         if (Input.GetButtonDown(ControlBindings.RELOAD))
             foreach (var gun in activeGuns)
                 gun.Reload();
@@ -37,7 +60,7 @@ public class GunManager : MonoBehaviour
     private void ProcessGun(BaseGun gun)
     {
         gun.ReduceInaccuracy(Time.deltaTime);
-        gun.AimAt(camera.transform.position + (camera.transform.forward * zeroingDistance));
+        gun.Aim(aimingPov.position, aimingPov.forward);
         gun.Recenter();
     }
 

@@ -4,9 +4,11 @@ public class BaseGun : Equipment
 {
     [Header("Gun Options")]
     [SerializeField] protected EquipmentSlotType slotType;
+    [SerializeField] Vector3 holdPosition;
+
     [Header(" - Projectile")]
     [SerializeField] Projectile projectilePrefab;
-    [SerializeField] Transform muzzleTransform;
+    [SerializeField] Transform muzzlePosition;
     [SerializeField] float bulletDamage = 20f;
     [SerializeField] float bulletSpeed = 20f;
     [SerializeField] float fireDelay = 0.1f;
@@ -14,6 +16,7 @@ public class BaseGun : Equipment
     [SerializeField] float recenterSpeed = 15f;
     
     [Header(" - Aiming")]
+    [SerializeField] float zeroingDistance = 100f;
     [SerializeField] float aimingSpeed = 5f;
     [SerializeField] [Range(1f, 10f)] float aimingAccuracyStrength = 2;
     [SerializeField] Vector3 aimingOffset;
@@ -28,8 +31,9 @@ public class BaseGun : Equipment
     [Header(" - Clip")]
     [SerializeField] Clip clip;
 
-
     public override EquipmentSlotType SlotType { get { return slotType; } }
+    public override Vector3 HoldPosition { get { return holdPosition; } }
+
     private float shootTimer = 0f;
     private float inaccuracy = 0f;
 
@@ -39,9 +43,7 @@ public class BaseGun : Equipment
     }
 
     public override void SecondaryUse()
-    {
-        Aim();
-    }
+    {}
 
     public void Reload()
     {
@@ -54,7 +56,7 @@ public class BaseGun : Equipment
         {
             shootTimer = Time.time + fireDelay;
 
-            Projectile pro = Instantiate(projectilePrefab, muzzleTransform.position, muzzleTransform.rotation * CalculateSpread());
+            Projectile pro = Instantiate(projectilePrefab, muzzlePosition.position, muzzlePosition.rotation * CalculateSpread());
             pro.Shoot(bulletSpeed, bulletDamage);
 
             this.transform.localPosition += kickBack;
@@ -81,39 +83,45 @@ public class BaseGun : Equipment
 
     bool isAiming;
     Vector3 activeAimingOffset;
-    protected virtual void Aim()
+    public virtual void SetADS(bool state)
     {
-        isAiming = !isAiming;
+        isAiming = state;
         if (isAiming)
             activeAimingOffset = aimingOffset;
         else
             activeAimingOffset = Vector3.zero;
     }
 
+
+
+    /// <summary>
+    /// Returns the direction the gun will be aiming the next time its fired
+    /// </summary>
+    /// <returns></returns>
     public Vector3 GetAim()
     {
-        Vector3 forward = muzzleTransform.forward;
+        Vector3 forward = muzzlePosition.forward;
 
+        // Apply correction if shooting is on cooldown
         if (Time.time < shootTimer)
         {
-            float dif = shootTimer - Time.time;
+            float timeRemaining = shootTimer - Time.time;
 
             Vector3 target = Camera.main.transform.position + 
-                                Camera.main.transform.forward * 100f;
+                                Camera.main.transform.forward * zeroingDistance;
             
-
-            Vector3 muzzleOffset = muzzleTransform.position - this.transform.position;
+            Vector3 muzzleOffset = muzzlePosition.position - this.transform.position;
             target -= muzzleOffset;
 
             Quaternion newRot = Quaternion.LookRotation(target - this.transform.position);
 
             Quaternion currentRot = this.transform.rotation;
-            while (Time.fixedDeltaTime < dif)
+            while (Time.fixedDeltaTime < timeRemaining)
             {
                 currentRot = Quaternion.Slerp(currentRot, newRot, Time.fixedDeltaTime * aimingSpeed);
-                dif -= Time.fixedDeltaTime;
+                timeRemaining -= Time.fixedDeltaTime;
             }
-            currentRot = Quaternion.Slerp(currentRot, newRot, dif * aimingSpeed);
+            currentRot = Quaternion.Slerp(currentRot, newRot, timeRemaining * aimingSpeed);
 
 
             forward = (Quaternion.Inverse(this.transform.rotation) * currentRot) * forward;
@@ -121,15 +129,17 @@ public class BaseGun : Equipment
         }
 
         RaycastHit hit;
-        if (Physics.Raycast(muzzleTransform.position, forward, out hit, 100f))
+        if (Physics.Raycast(muzzlePosition.position, forward, out hit, zeroingDistance))
             return hit.point;
 
-        return muzzleTransform.position + (muzzleTransform.forward * 100f);
+        return muzzlePosition.position + (muzzlePosition.forward * zeroingDistance);
     }
 
-    public void AimAt(Vector3 target)
+    public void Aim(Vector3 povPosition, Vector3 direction)
     {
-        Vector3 muzzleOffset = muzzleTransform.position - this.transform.position;
+        Vector3 target = povPosition + (direction.normalized * zeroingDistance);
+
+        Vector3 muzzleOffset = muzzlePosition.position - this.transform.position;
         target -= muzzleOffset;
 
         Quaternion newRot = Quaternion.LookRotation(target - this.transform.position);

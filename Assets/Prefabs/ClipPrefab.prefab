@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 1830262549290055598}
   - component: {fileID: 4258207503253790716}
   - component: {fileID: 5105805421307007767}
-  m_Layer: 0
-  m_Name: Clip
+  m_Layer: 13
+  m_Name: ClipPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48511a5eb5bd5c04b9c157889dc9c1cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clipPrefab: {fileID: 4258207503253790716}
   rigidbody: {fileID: 5105805421307007767}
+  clipPrefab: {fileID: 4258207503253790716}
   clipLifeTime: 40
   launchVector: {x: 0, y: 0, z: 0}
 --- !u!54 &5105805421307007767

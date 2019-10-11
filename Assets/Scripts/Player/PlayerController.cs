@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Required References")]
     [SerializeField] new Rigidbody rigidbody;
     [SerializeField] new Camera camera;
+    [SerializeField] Transform hands;
 
     [Header("Movement Options")]
     [SerializeField] float movementForce = 20f;
@@ -21,6 +22,10 @@ public class PlayerController : MonoBehaviour
     [Space]
     [SerializeField] float minCameraPitch = -80f;
     [SerializeField] float maxCameraPitch = 80f;
+
+    [Header("Hand Movement Options")]
+    [SerializeField] float maxHandRotation = 7f;
+    [SerializeField] float handRotationSpeed = 4f;
 
     [Header("Ground Raycast Options")]
     [SerializeField] Vector3 groundCastOffset;
@@ -88,6 +93,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
+    Quaternion targetHandRotation = Quaternion.identity;
     private void Rotate()
     {
         // Rotate player's body
@@ -97,6 +103,9 @@ public class PlayerController : MonoBehaviour
         currentCameraRot -= viewY * ySensitivity;
         currentCameraRot = Mathf.Clamp(currentCameraRot, minCameraPitch, maxCameraPitch);
         camera.transform.localRotation = Quaternion.Euler(currentCameraRot, 0f, 0f);
+
+        // Rotate hands
+        hands.localRotation = Quaternion.Slerp(hands.localRotation, targetHandRotation, Time.deltaTime * handRotationSpeed);
     }
 
     private void Move()
@@ -133,6 +142,15 @@ public class PlayerController : MonoBehaviour
                 rigidbody.velocity = newVelocity;
             }
         }
+
+        //Update target hand rotation
+        Vector3 localVelocity = Quaternion.Inverse(rigidbody.rotation) * rigidbody.velocity;
+
+        float x, y;
+        x = Mathf.Clamp(localVelocity.x,-maxHandRotation, maxHandRotation);
+        y = Mathf.Clamp(localVelocity.y, -maxHandRotation, maxHandRotation);
+
+        targetHandRotation = Quaternion.Euler(y, -x, 0f);
     }
 
     /// <summary>

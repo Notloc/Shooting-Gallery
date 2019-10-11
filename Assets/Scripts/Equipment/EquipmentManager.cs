@@ -39,13 +39,17 @@ public class EquipmentManager : MonoBehaviour
 
     public bool Equip(Equipment newEquip)
     {
-        EquipmentSlot slot = SlotTypeToOpenSlot(newEquip.SlotType);
-        if (slot == EquipmentSlot.None)
+        EquipmentSlot slotId = SlotTypeToOpenSlot(newEquip.SlotType);
+        if (slotId == EquipmentSlot.None)
             return false;
 
-        newEquip.transform.SetParent(equipmentSlots[slot]);
+        Transform slot = equipmentSlots[slotId];
+        slot.localPosition = newEquip.HoldPosition;
+
+        newEquip.transform.SetParent(slot);
         newEquip.transform.ResetLocal();
-        equipment.Add(slot, newEquip);
+
+        equipment.Add(slotId, newEquip);
         OnEquip?.Invoke(newEquip);
         return true;
     }
