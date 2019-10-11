@@ -132,7 +132,7 @@ MonoBehaviour:
   interactionDistance: 2
   interactionLayerMask:
     serializedVersion: 2
-    m_Bits: 2048
+    m_Bits: 1024
 --- !u!114 &7839269442442264117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,15 +147,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rigidbody: {fileID: 7839269442442264119}
   camera: {fileID: 7839269444273937969}
+  hands: {fileID: 645270369410410314}
   movementForce: 25
   movementSpeed: 4.5
   sprintMultiplier: 1.7
   velocityDecayMultiplier: 0.85
-  jumpForce: 150
+  jumpForce: 170
+  airControlMultiplier: 0.15
   xSensitivity: 3
   ySensitivity: 3
   minCameraPitch: -80
   maxCameraPitch: 80
+  maxHandRotation: 7
+  handRotationSpeed: 6
   groundCastOffset: {x: 0, y: 0.05, z: 0}
   groundCastLength: 0.07
   numberOfGroundCasts: 6
@@ -190,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   aimingPov: {fileID: 7839269444273937968}
+  toggleAim: 0
 --- !u!1 &7839269444014951101
 GameObject:
   m_ObjectHideFlags: 0

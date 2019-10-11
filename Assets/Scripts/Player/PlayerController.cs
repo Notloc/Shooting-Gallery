@@ -16,14 +16,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float velocityDecayMultiplier = 0.9f;
     [Space]
     [SerializeField] float jumpForce = 15f;
-    [Space]
+    [SerializeField] float airControlMultiplier = 0.15f;
+    
+    [Header("Aiming Options")]
     [SerializeField] float xSensitivity = 3f;
     [SerializeField] float ySensitivity = 3f;
     [Space]
     [SerializeField] float minCameraPitch = -80f;
     [SerializeField] float maxCameraPitch = 80f;
 
-    [Header("Hand Movement Options")]
+    [Header("Hand Sway Options")]
     [SerializeField] float maxHandRotation = 7f;
     [SerializeField] float handRotationSpeed = 4f;
 
@@ -118,30 +120,34 @@ public class PlayerController : MonoBehaviour
 
                 rigidbody.AddForce(Vector3.up * jumpForce);
             }
-
-            if (hasMovementInput)
-            {
-                Vector3 force = new Vector3(inputX, 0f, inputY);
-                if (force.sqrMagnitude > 1f)
-                    force = force.normalized;
-
-                force *= movementForce;
-                if (isSprinting)
-                    force *= sprintMultiplier;
-
-                rigidbody.AddRelativeForce(force);
-                rigidbody.velocity = ClampPlayerVelocity(rigidbody.velocity);
-            }
-            else
-            { // Lose velocity quickly
-                float oldY = rigidbody.velocity.y; // Preserve gravity;
-
-                Vector3 newVelocity = rigidbody.velocity * velocityDecayMultiplier;
-                newVelocity.y = oldY;
-
-                rigidbody.velocity = newVelocity;
-            }
         }
+
+        if (hasMovementInput)
+        {
+            Vector3 force = new Vector3(inputX, 0f, inputY);
+            if (force.sqrMagnitude > 1f)
+                force = force.normalized;
+
+            force *= movementForce;
+            if (isSprinting)
+                force *= sprintMultiplier;
+
+            if (!isGrounded)
+                force *= airControlMultiplier;
+
+            rigidbody.AddRelativeForce(force);
+            rigidbody.velocity = ClampPlayerVelocity(rigidbody.velocity);
+        }
+        else
+        { // Lose velocity quickly
+            float oldY = rigidbody.velocity.y; // Preserve gravity;
+
+            Vector3 newVelocity = rigidbody.velocity * velocityDecayMultiplier;
+            newVelocity.y = oldY;
+
+            rigidbody.velocity = newVelocity;
+        }
+        
 
         //Update target hand rotation
         Vector3 localVelocity = Quaternion.Inverse(rigidbody.rotation) * rigidbody.velocity;
