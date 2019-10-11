@@ -206,7 +206,8 @@ MonoBehaviour:
   - {fileID: 4332831741382463254}
   - {fileID: 4332831741122341057}
   - {fileID: 4332831741689815422}
-  maxZombies: 10
+  maxZombies: 64
+  spawnDelay: 1.5
 --- !u!1 &4332831742671494528
 GameObject:
   m_ObjectHideFlags: 0
@@ -252,3 +253,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieManager: {fileID: 4332831742652000593}
+  baseWaveSize: 5
+  waveSizeFactor: 0.4

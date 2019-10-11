@@ -46,7 +46,7 @@ public class Zombie : MonoBehaviour, IDamagable
         Agent.enabled = false;
         Rigidbody.isKinematic = false;
         Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY;
-        Rigidbody.angularVelocity += new Vector3(fallSpeedRadians, 0f, fallSpeedRadians);
+        Rigidbody.angularVelocity += Rigidbody.rotation * new Vector3(fallSpeedRadians, 0f, fallSpeedRadians);
 
         this.gameObject.SetLayerRecursively(LayerManager.Effects);
 

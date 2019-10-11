@@ -1298,6 +1298,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8017569650647636293, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.21
+      objectReference: {fileID: 0}
+    - target: {fileID: 8017569650647636293, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
         type: 3}
       propertyPath: randomSpreadCurve.m_Curve.Array.size
@@ -1989,15 +1999,15 @@ PrefabInstance:
       propertyPath: clip
       value: 
       objectReference: {fileID: 8173637134540923379}
-    - target: {fileID: 8017569650647636293, guid: 5957be2917f0ebc45845585e56f17805,
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
         type: 3}
-      propertyPath: m_Center.z
-      value: 0.21
+      propertyPath: kickBack.z
+      value: -0.13
       objectReference: {fileID: 0}
-    - target: {fileID: 8017569650647636293, guid: 5957be2917f0ebc45845585e56f17805,
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
         type: 3}
-      propertyPath: m_Radius
-      value: 0.25
+      propertyPath: aimingSpeed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5957be2917f0ebc45845585e56f17805, type: 3}
