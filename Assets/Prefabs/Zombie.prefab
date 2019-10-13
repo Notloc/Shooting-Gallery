@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d448a47f45ce3ed498565eb814644aa0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 6228612146006493420}
   - component: {fileID: 1495280262958440738}
   - component: {fileID: 4945620024035483301}
+  - component: {fileID: 8603966364798143526}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -178,3 +179,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8603966364798143526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9175299604158852528}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96bed3f99437cbb45a46e41197faf4b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impactParticlesPrefab: {fileID: 8754358788737734572, guid: 0d67a6c825dd14845823771e841850ae,
+    type: 3}
+  bulletHolePrefab: {fileID: 0}

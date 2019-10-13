@@ -353,21 +353,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7605873785042123285, guid: b73ff9c820b50454c855696ed9358d4f,
-        type: 3}
-      propertyPath: aimingSpeed
-      value: 3.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7605873785042123285, guid: b73ff9c820b50454c855696ed9358d4f,
-        type: 3}
-      propertyPath: inaccuracyStrength
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7605873785042123285, guid: b73ff9c820b50454c855696ed9358d4f,
-        type: 3}
-      propertyPath: accuracyRecoveryRate
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b73ff9c820b50454c855696ed9358d4f, type: 3}
 --- !u!1001 &1004339480
@@ -665,6 +650,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332831742671494529, guid: ef6e6dfaa3125f44cb16317af862e926,
+        type: 3}
+      propertyPath: waveGuiPrefab
+      value: 
+      objectReference: {fileID: 5911553726858973809, guid: 188cfb294b04f4b46ab472006c1a57bb,
+        type: 3}
+    - target: {fileID: 4332831742671494529, guid: ef6e6dfaa3125f44cb16317af862e926,
+        type: 3}
+      propertyPath: intermissionLength
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4332831742652000593, guid: ef6e6dfaa3125f44cb16317af862e926,
+        type: 3}
+      propertyPath: spawnDelay
+      value: 0.75
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef6e6dfaa3125f44cb16317af862e926, type: 3}

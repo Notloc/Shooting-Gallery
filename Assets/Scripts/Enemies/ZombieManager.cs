@@ -13,6 +13,7 @@ public class ZombieManager : MonoBehaviour
     [SerializeField] float spawnDelay = 2f;
 
     public bool AllZombiesDead { get { return zombiesToSpawn == 0 && activeZombies.Count == 0; } }
+    public int Remaining { get { return activeZombies.Count + zombiesToSpawn; } }
 
     private Player player;
     private int zombiesToSpawn = 0;

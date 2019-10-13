@@ -116,16 +116,13 @@ public class BaseGun : Equipment
             Quaternion newRot = Quaternion.LookRotation(target - this.transform.position);
 
             Quaternion currentRot = this.transform.rotation;
-            while (Time.fixedDeltaTime < timeRemaining)
+            while (0f < timeRemaining)
             {
                 currentRot = Quaternion.Slerp(currentRot, newRot, Time.fixedDeltaTime * aimingSpeed);
                 timeRemaining -= Time.fixedDeltaTime;
             }
-            currentRot = Quaternion.Slerp(currentRot, newRot, timeRemaining * aimingSpeed);
-
 
             forward = (Quaternion.Inverse(this.transform.rotation) * currentRot) * forward;
-
         }
 
         RaycastHit hit;
@@ -144,13 +141,13 @@ public class BaseGun : Equipment
 
         Quaternion newRot = Quaternion.LookRotation(target - this.transform.position);
 
-        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, newRot, Time.deltaTime * aimingSpeed);
+        this.transform.rotation = Quaternion.Slerp(this.transform.rotation, newRot, Time.fixedDeltaTime * aimingSpeed);
     }
 
     public void Recenter()
     {
         float dist = Mathf.Clamp(this.transform.localPosition.magnitude, 0.5f, 15f);
-        this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, Vector3.zero + activeAimingOffset, Time.deltaTime * recenterSpeed * dist);
+        this.transform.localPosition = Vector3.Lerp(this.transform.localPosition, Vector3.zero + activeAimingOffset, Time.fixedDeltaTime * recenterSpeed * dist);
     }
 
     private void ApplyInaccuracy()
