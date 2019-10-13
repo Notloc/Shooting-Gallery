@@ -12,10 +12,15 @@ public class ImpactEffect : MonoBehaviour
         Vector3 offset = hit.normal * 0.015f;
 
         // Create particles
-        Instantiate(impactParticlesPrefab, hit.point + offset, Quaternion.LookRotation(hit.normal));
+        if (impactParticlesPrefab)
+            Instantiate(impactParticlesPrefab, hit.point + offset, Quaternion.LookRotation(hit.normal));
 
         // Create bullet hole
-        SpriteRenderer newBulletHole = Instantiate(bulletHolePrefab, hit.point + offset, Quaternion.LookRotation(hit.normal));
-        newBulletHole.sprite = projectile.BulletHole;
+        if (bulletHolePrefab)
+        {
+            SpriteRenderer newBulletHole = Instantiate(bulletHolePrefab, hit.point + offset, Quaternion.LookRotation(hit.normal));
+            newBulletHole.sprite = projectile.BulletHole;
+        }
     }
 }
+    

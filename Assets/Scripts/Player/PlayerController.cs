@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     [Header("Required References")]
     [SerializeField] new Rigidbody rigidbody;
     [SerializeField] new Camera camera;
+    [SerializeField] Transform hands;
 
     [Header("Movement Options")]
     [SerializeField] float movementForce = 20f;
@@ -15,12 +16,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float velocityDecayMultiplier = 0.9f;
     [Space]
     [SerializeField] float jumpForce = 15f;
-    [Space]
+    [SerializeField] float airControlMultiplier = 0.15f;
+    
+    [Header("Aiming Options")]
     [SerializeField] float xSensitivity = 3f;
     [SerializeField] float ySensitivity = 3f;
     [Space]
     [SerializeField] float minCameraPitch = -80f;
     [SerializeField] float maxCameraPitch = 80f;
+
+    [Header("Hand Sway Options")]
+    [SerializeField] float maxHandRotation = 7f;
+    [SerializeField] float handRotationSpeed = 4f;
 
     [Header("Ground Raycast Options")]
     [SerializeField] Vector3 groundCastOffset;
@@ -88,6 +95,7 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
+    Quaternion targetHandRotation = Quaternion.identity;
     private void Rotate()
     {
         // Rotate player's body
@@ -97,6 +105,9 @@ public class PlayerController : MonoBehaviour
         currentCameraRot -= viewY * ySensitivity;
         currentCameraRot = Mathf.Clamp(currentCameraRot, minCameraPitch, maxCameraPitch);
         camera.transform.localRotation = Quaternion.Euler(currentCameraRot, 0f, 0f);
+
+        // Rotate hands
+        hands.localRotation = Quaternion.Slerp(hands.localRotation, targetHandRotation, Time.deltaTime * handRotationSpeed);
     }
 
     private void Move()
@@ -109,30 +120,43 @@ public class PlayerController : MonoBehaviour
 
                 rigidbody.AddForce(Vector3.up * jumpForce);
             }
-
-            if (hasMovementInput)
-            {
-                Vector3 force = new Vector3(inputX, 0f, inputY);
-                if (force.sqrMagnitude > 1f)
-                    force = force.normalized;
-
-                force *= movementForce;
-                if (isSprinting)
-                    force *= sprintMultiplier;
-
-                rigidbody.AddRelativeForce(force);
-                rigidbody.velocity = ClampPlayerVelocity(rigidbody.velocity);
-            }
-            else
-            { // Lose velocity quickly
-                float oldY = rigidbody.velocity.y; // Preserve gravity;
-
-                Vector3 newVelocity = rigidbody.velocity * velocityDecayMultiplier;
-                newVelocity.y = oldY;
-
-                rigidbody.velocity = newVelocity;
-            }
         }
+
+        if (hasMovementInput)
+        {
+            Vector3 force = new Vector3(inputX, 0f, inputY);
+            if (force.sqrMagnitude > 1f)
+                force = force.normalized;
+
+            force *= movementForce;
+            if (isSprinting)
+                force *= sprintMultiplier;
+
+            if (!isGrounded)
+                force *= airControlMultiplier;
+
+            rigidbody.AddRelativeForce(force);
+            rigidbody.velocity = ClampPlayerVelocity(rigidbody.velocity);
+        }
+        else
+        { // Lose velocity quickly
+            float oldY = rigidbody.velocity.y; // Preserve gravity;
+
+            Vector3 newVelocity = rigidbody.velocity * velocityDecayMultiplier;
+            newVelocity.y = oldY;
+
+            rigidbody.velocity = newVelocity;
+        }
+        
+
+        //Update target hand rotation
+        Vector3 localVelocity = Quaternion.Inverse(rigidbody.rotation) * rigidbody.velocity;
+
+        float x, y;
+        x = Mathf.Clamp(localVelocity.x,-maxHandRotation, maxHandRotation);
+        y = Mathf.Clamp(localVelocity.y, -maxHandRotation, maxHandRotation);
+
+        targetHandRotation = Quaternion.Euler(y, -x, 0f);
     }
 
     /// <summary>

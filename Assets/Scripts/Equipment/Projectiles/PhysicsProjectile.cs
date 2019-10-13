@@ -31,12 +31,10 @@ public class PhysicsProjectile : Projectile
             IDamagable damagable = hit.collider.GetComponentInParent<IDamagable>();
             if (damagable != null)
                 damagable.Damage(damage);
-            else
-            {
-                ImpactEffect impact = hit.collider.GetComponentInParent<ImpactEffect>();
-                if (impact)
-                    impact.Impact(this, hit);
-            }
+
+            ImpactEffect impact = hit.collider.GetComponentInParent<ImpactEffect>();
+            if (impact)
+                impact.Impact(this, hit);
 
             Destroy(this.gameObject);
         }

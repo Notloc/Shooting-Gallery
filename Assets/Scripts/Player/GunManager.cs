@@ -6,12 +6,15 @@ using UnityEngine;
 public class GunManager : MonoBehaviour
 {
     [Header("Required Reference")]
-    [SerializeField] new Camera camera;
-    [Space]
-    [SerializeField] float zeroingDistance;
+    [SerializeField] Transform aimingPov;
+
+    [Header("Options")]
+    [SerializeField] bool toggleAim;
 
     private HashSet<BaseGun> activeGuns;
     public ICollection<BaseGun> ActiveGuns { get { return activeGuns; } }
+
+    private bool isAiming = false;
 
     private EquipmentManager equipmentManager;
     private void Awake()
@@ -24,8 +27,37 @@ public class GunManager : MonoBehaviour
         equipmentManager.OnUnequip += UnregisterGun;
     }
 
+    bool aimInput, aimHold;
     private void Update()
     {
+        // Take Input
+
+        aimInput = aimInput || Input.GetButtonDown(ControlBindings.AIM);
+        aimHold = Input.GetButton(ControlBindings.AIM);
+    }
+
+    private void FixedUpdate()
+    {
+        if (toggleAim)
+        {
+            if (aimInput)
+            {
+                isAiming = !isAiming;
+                foreach (var gun in activeGuns)
+                    gun.SetADS(isAiming);
+            }
+        }
+        else
+        {
+            bool newState = aimHold;
+            if (isAiming != newState)
+            {
+                isAiming = newState;
+                foreach (var gun in activeGuns)
+                    gun.SetADS(isAiming);
+            }
+        }  
+
         if (Input.GetButtonDown(ControlBindings.RELOAD))
             foreach (var gun in activeGuns)
                 gun.Reload();
@@ -36,8 +68,8 @@ public class GunManager : MonoBehaviour
 
     private void ProcessGun(BaseGun gun)
     {
-        gun.ReduceInaccuracy(Time.deltaTime);
-        gun.AimAt(camera.transform.position + (camera.transform.forward * zeroingDistance));
+        gun.ReduceInaccuracy(Time.fixedDeltaTime);
+        gun.Aim(aimingPov.position, aimingPov.forward);
         gun.Recenter();
     }
 
