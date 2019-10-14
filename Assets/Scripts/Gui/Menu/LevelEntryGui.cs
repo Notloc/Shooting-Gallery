@@ -8,6 +8,7 @@ public class LevelEntryGui : MonoBehaviour
 {
     [SerializeField] Text levelName;
     [SerializeField] Button button;
+    [SerializeField] Image image;
 
     private Action<LevelDescription> SelectionFunction;
     private LevelDescription level;
@@ -16,8 +17,9 @@ public class LevelEntryGui : MonoBehaviour
     {
         this.level = level;
 
-        levelName.text = level.LevelName;
+        levelName.text = level.DisplayName;
         SelectionFunction = OnSelect;
+        image.sprite = level.Image;
 
         button.onClick.AddListener(OnClick);
     }

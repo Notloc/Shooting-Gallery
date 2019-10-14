@@ -10,6 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e7295e72f62933c43acf0fbf54806dee, type: 3}
-  m_Name: Level3
+  m_Name: ShootingRange
   m_EditorClassIdentifier: 
-  levelName: SampleScene
+  levelName: ShootingRange
+  displayName: The Shooting Range
+  levelImage: {fileID: 21300000, guid: a73e088d7a2c77242acf72a1d586bc4d, type: 3}

@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: 
   levelName: Level1
+  displayName: The House
+  levelImage: {fileID: 21300000, guid: 20224ed8442197c45a7a51f6cf8256d3, type: 3}

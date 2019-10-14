@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: Level2
   m_EditorClassIdentifier: 
   levelName: Level2
+  displayName: The Park
+  levelImage: {fileID: 21300000, guid: 51231b5a406f26f478ad6036566d7bc1, type: 3}

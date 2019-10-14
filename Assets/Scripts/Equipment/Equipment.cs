@@ -9,7 +9,7 @@ public abstract class Equipment : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
-        player.EquipmentManager.Equip(this);
+        player.EquipmentManager.Equip(this, true);
     }
 
     public abstract void PrimaryUse(Player player);
