@@ -140,7 +140,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f6dba859a43974f9c792bfc9a78f94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fallSpeedRadians: 2
+  fallSpeedRadians: 2.5
+  health: 100
+  moneyReward: 100
+  attackDistance: 1.25
+  attackDelay: 0.65
+  attackPower: 30
 --- !u!195 &1495280262958440738
 NavMeshAgent:
   m_ObjectHideFlags: 0

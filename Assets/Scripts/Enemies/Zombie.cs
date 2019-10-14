@@ -14,7 +14,9 @@ public class Zombie : MonoBehaviour, IDamagable
     [Space]
     [SerializeField] float health = 100f;
     [SerializeField] float moneyReward = 100f;
-
+    [SerializeField] float attackDistance = 1f;
+    [SerializeField] float attackDelay = 0.65f;
+    [SerializeField] float attackPower = 35f;
     public bool IsDead { get { return health <= 0f; } }
 
     private Transform target;
@@ -29,6 +31,28 @@ public class Zombie : MonoBehaviour, IDamagable
     {
         if (target)
             Agent.SetDestination(target.position);
+
+        if (!attacking && (target.position - this.transform.position).sqrMagnitude < Mathf.Pow(attackDistance,2f))
+        {
+            StartCoroutine(Attack());
+        }
+    }
+
+    bool attacking = false;
+    private IEnumerator Attack()
+    {
+        attacking = true;
+
+        yield return new WaitForSeconds(attackDelay);
+        float dist = Vector3.Distance(target.position, this.transform.position);
+        if (dist <= attackDistance)
+        {
+            var damagable = target.GetComponent<IDamagable>();
+            if (damagable != null)
+                damagable.Damage(attackPower, null);
+        }
+
+        attacking = false;
     }
 
     public void SetTarget(Transform target)
