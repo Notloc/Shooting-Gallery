@@ -163,8 +163,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   clip: {fileID: 0}
+  clipSize: 10
+  reloadTime: 1.5
   gunAudioSource: {fileID: 1796269648440872346}
   gunShot: {fileID: 8300000, guid: bcf84b10fe35ab141956d490ded3d024, type: 3}
+  gunEmpty: {fileID: 8300000, guid: 083ebd13ba5613d499a217e783c0a8f3, type: 3}
 --- !u!135 &8017569650647636293
 SphereCollider:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class Player : MonoBehaviour, IDamagable
     [SerializeField] EquipmentManager equipmentManager;
     [SerializeField] PlayerController playerController;
     [SerializeField] GunManager gunController;
+    [SerializeField] InfoGui infoGui;
     [SerializeField] GameObject winScreenPrefab;
     [SerializeField] GameObject deathScreenPrefab;
 
@@ -25,11 +26,35 @@ public class Player : MonoBehaviour, IDamagable
     public float Health { get { return health; } } 
     public EquipmentManager EquipmentManager { get { return equipmentManager; } }
 
+    private IInteractable interactionTarget;
+
     void Update()
     {
+        UpdateInteractionTarget();
         HandleInteraction();
         RegenHealth();
     }
+
+    private void UpdateInteractionTarget()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance, interactionLayerMask))
+        {
+            interactionTarget = hit.collider.GetComponentInParent<IInteractable>();
+            UpdateInfo(interactionTarget as IHaveInfo);
+        }
+        else
+        {
+            interactionTarget = null;
+            UpdateInfo(null);
+        }
+    }
+
+    private void UpdateInfo(IHaveInfo info)
+    {
+        infoGui.UpdateInfo(info);
+    }
+
 
     private void HandleInteraction()
     {
@@ -54,13 +79,8 @@ public class Player : MonoBehaviour, IDamagable
 
     private void Interact()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance, interactionLayerMask))
-        {
-            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
-            if (interactable != null)
-                interactable.Interact(this);
-        }
+        if (interactionTarget != null)
+            interactionTarget.Interact(this);
     }
 
     public void AddMoney(float amount)
@@ -107,6 +127,7 @@ public class Player : MonoBehaviour, IDamagable
         gunController.enabled = false;
 
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 
     private void Die()
@@ -121,5 +142,6 @@ public class Player : MonoBehaviour, IDamagable
         gunController.enabled = false;
 
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
 }

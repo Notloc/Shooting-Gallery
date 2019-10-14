@@ -30,5 +30,6 @@ public class GameController : MonoBehaviour
             Player.EquipmentManager.Equip(Instantiate(defaultGunPrefab));
 
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }

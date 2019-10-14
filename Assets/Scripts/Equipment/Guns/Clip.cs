@@ -13,12 +13,19 @@ public class Clip : MonoBehaviour
     [SerializeField] float clipLifeTime = 40f;
     [SerializeField] Vector3 launchVector;
 
-    public void DoClipEffect()
+    public void DropClip()
     {
         Clip newClip = Instantiate(clipPrefab);
         newClip.Initialize(this, launchVector, clipLifeTime);
+
+        this.gameObject.SetActive(false);
     }
     
+    public void ShowClip()
+    {
+        this.gameObject.SetActive(true);
+    }
+
     private void Initialize(Clip clip, Vector3 launchVector, float lifeTime)
     {
         this.transform.position = clip.transform.position;

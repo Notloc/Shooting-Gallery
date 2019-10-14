@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuyableDebris : MonoBehaviour, IInteractable
+public class BuyableDebris : MonoBehaviour, IInteractable, IHaveInfo
 {
     [SerializeField] float cost;
+
+    public string GetInfoText()
+    {
+        return "Clear for $" + cost.ToString("#");
+    }
 
     public void Interact(Player player)
     {

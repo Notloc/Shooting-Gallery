@@ -27,13 +27,15 @@ public class GunManager : MonoBehaviour
         equipmentManager.OnUnequip += UnregisterGun;
     }
 
-    bool aimInput, aimHold;
+    bool aimInput, aimHold, reload;
     private void Update()
     {
         // Take Input
 
         aimInput = aimInput || Input.GetButtonDown(ControlBindings.AIM);
         aimHold = Input.GetButton(ControlBindings.AIM);
+
+        reload = reload || Input.GetButtonDown(ControlBindings.RELOAD);
     }
 
     private void FixedUpdate()
@@ -46,6 +48,7 @@ public class GunManager : MonoBehaviour
                 foreach (var gun in activeGuns)
                     gun.SetADS(isAiming);
             }
+            aimInput = false;
         }
         else
         {
@@ -58,9 +61,10 @@ public class GunManager : MonoBehaviour
             }
         }  
 
-        if (Input.GetButtonDown(ControlBindings.RELOAD))
+        if (reload)
             foreach (var gun in activeGuns)
                 gun.Reload();
+        reload = false;
 
         foreach (var gun in activeGuns)
             ProcessGun(gun);
@@ -69,7 +73,7 @@ public class GunManager : MonoBehaviour
     private void ProcessGun(BaseGun gun)
     {
         gun.ReduceInaccuracy(Time.fixedDeltaTime);
-        gun.Aim(aimingPov.position, aimingPov.forward);
+        gun.AimGun(aimingPov.position, aimingPov.forward);
         gun.Recenter();
     }
 

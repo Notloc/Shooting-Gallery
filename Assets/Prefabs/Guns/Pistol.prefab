@@ -356,6 +356,46 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pistol
       objectReference: {fileID: 0}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: muzzlePosition
+      value: 
+      objectReference: {fileID: 293941215429171210}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: clip
+      value: 
+      objectReference: {fileID: 8569380547212139322}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: aimingOffset.x
+      value: -0.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: aimingOffset.y
+      value: 0.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: aimingOffset.z
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: holdPosition.y
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: clipSize
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
+        type: 3}
+      propertyPath: reloadTime
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 7849744354215232471, guid: 5957be2917f0ebc45845585e56f17805,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -410,36 +450,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
-        type: 3}
-      propertyPath: muzzlePosition
-      value: 
-      objectReference: {fileID: 293941215429171210}
-    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
-        type: 3}
-      propertyPath: clip
-      value: 
-      objectReference: {fileID: 8569380547212139322}
-    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
-        type: 3}
-      propertyPath: aimingOffset.x
-      value: -0.19
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
-        type: 3}
-      propertyPath: aimingOffset.y
-      value: 0.12
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
-        type: 3}
-      propertyPath: aimingOffset.z
-      value: -0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1846148430338320013, guid: 5957be2917f0ebc45845585e56f17805,
-        type: 3}
-      propertyPath: holdPosition.y
-      value: -0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5957be2917f0ebc45845585e56f17805, type: 3}

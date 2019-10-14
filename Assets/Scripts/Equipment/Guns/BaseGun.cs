@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 
 public class BaseGun : Equipment
 {
@@ -30,16 +31,26 @@ public class BaseGun : Equipment
 
     [Header(" - Clip")]
     [SerializeField] Clip clip;
+    [SerializeField] int clipSize = 10;
+    [SerializeField] float reloadTime = 1.5f;
 
     [Header(" - Sound")]
     [SerializeField] AudioSource gunAudioSource;
     [SerializeField] AudioClip gunShot;
+    [SerializeField] AudioClip gunEmpty;
 
     public override EquipmentSlotType SlotType { get { return slotType; } }
     public override Vector3 HoldPosition { get { return holdPosition; } }
 
     private float shootTimer = 0f;
     private float inaccuracy = 0f;
+
+    private int bulletsInClip;
+
+    private void Awake()
+    {
+        bulletsInClip = clipSize;
+    }
 
     public override void PrimaryUse(Player user)
     {
@@ -49,16 +60,51 @@ public class BaseGun : Equipment
     public override void SecondaryUse(Player user)
     {}
 
+    bool isReloading = false;
     public void Reload()
     {
-        clip.DoClipEffect();
+        if (isReloading)
+            return;
+
+        StartCoroutine(Reloading());
     }
+
+    private IEnumerator Reloading()
+    {
+        isReloading = true;
+        bulletsInClip = 0;
+
+        clip.DropClip();
+        Quaternion originalRot = this.transform.localRotation;
+
+
+        float timer = 0f;
+        while(timer < reloadTime)
+        {
+            timer += Time.deltaTime;
+            this.transform.localRotation = originalRot * Quaternion.Euler((timer / reloadTime) * 360f, 0f, 0f);
+            yield return null;
+        }
+
+        clip.ShowClip();
+        bulletsInClip = clipSize;
+        isReloading = false;
+    }
+
 
     protected virtual void Shoot(Player shooter)
     {
-        if (Time.time > shootTimer)
+        if (Time.time > shootTimer && !isReloading)
         {
             shootTimer = Time.time + fireDelay;
+
+            if (bulletsInClip <= 0)
+            {
+                PlayGunEmpty();
+                return;
+            }
+ 
+            bulletsInClip--;
 
             Projectile pro = Instantiate(projectilePrefab, muzzlePosition.position, muzzlePosition.rotation * CalculateSpread());
             pro.Shoot(shooter, bulletSpeed, bulletDamage);
@@ -69,6 +115,12 @@ public class BaseGun : Equipment
             IncreaseInaccuracy(inaccuracyPerShot);
             ApplyInaccuracy();
         }
+    }
+
+    private void PlayGunEmpty()
+    {
+        gunAudioSource.pitch = Random.Range(0.9f, 1.0f);
+        gunAudioSource.PlayOneShot(gunEmpty);
     }
 
     private void PlayGunShot()
@@ -143,8 +195,11 @@ public class BaseGun : Equipment
         return muzzlePosition.position + (muzzlePosition.forward * zeroingDistance);
     }
 
-    public void Aim(Vector3 povPosition, Vector3 direction)
+    public void AimGun(Vector3 povPosition, Vector3 direction)
     {
+        if (isReloading)
+            return;
+
         Vector3 target = povPosition + (direction.normalized * zeroingDistance);
 
         Vector3 muzzleOffset = muzzlePosition.position - this.transform.position;
