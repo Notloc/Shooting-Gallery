@@ -29,7 +29,7 @@ public class PhysicsProjectile : Projectile
 
         // Try to hit something
         RaycastHit hit;
-        if (Physics.Raycast(this.rigidbody.position, velocity, out hit, velocity.magnitude * Time.fixedDeltaTime))
+        if (Physics.Raycast(this.rigidbody.position, velocity, out hit, velocity.magnitude * Time.fixedDeltaTime, collisionMask))
         {
             IDamagable damagable = hit.collider.GetComponentInParent<IDamagable>();
             if (damagable != null)

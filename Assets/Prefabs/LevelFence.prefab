@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2028286365222532584}
   - component: {fileID: 2148119666515776125}
   - component: {fileID: 3062177864225738265}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: Fence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 1392587918613100212}
   - component: {fileID: 87744634576038621}
   - component: {fileID: 1617964145698307531}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: LevelFence
   m_TagString: Untagged
   m_Icon: {fileID: 0}
