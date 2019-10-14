@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     [SerializeField] float interactionDistance = 2f;
     [SerializeField] LayerMask interactionLayerMask;
 
+
+    public float Money { get; private set; } 
+    public EquipmentManager EquipmentManager { get { return equipmentManager; } }
+
     void Update()
     {
         HandleInteraction();
@@ -20,10 +24,10 @@ public class Player : MonoBehaviour
     private void HandleInteraction()
     {
         if (Input.GetButton(ControlBindings.FIRE_PRIMARY))
-            equipmentManager.UsePrimary();
+            equipmentManager.UsePrimary(this);
 
         if (Input.GetButton(ControlBindings.FIRE_SECONDARY))
-            equipmentManager.UseSecondary();
+            equipmentManager.UseSecondary(this);
 
         if (Input.GetButtonDown(ControlBindings.INTERACT))
             Interact();
@@ -34,9 +38,27 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, interactionDistance, interactionLayerMask))
         {
-            Equipment equipment = hit.collider.GetComponentInParent<Equipment>();
-            if (equipment)
-                equipmentManager.Equip(equipment);
+            IInteractable interactable = hit.collider.GetComponentInParent<IInteractable>();
+            if (interactable != null)
+                interactable.Interact(this);
         }
     }
+
+    public void AddMoney(float amount)
+    {
+        if (amount < 0f)
+            return;
+
+        Money += amount;
+    }
+
+    public bool SpendMoney(float amount)
+    {
+        if (amount > Money)
+            return false;
+
+        Money -= amount;
+        return true;
+    }
+
 }

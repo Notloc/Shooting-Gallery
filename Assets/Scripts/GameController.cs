@@ -11,6 +11,8 @@ public class GameController : MonoBehaviour
     [Header("Required Reference")]
     [SerializeField] Player playerPrefab;
     [SerializeField] Transform spawnPoint;
+    [Space]
+    [SerializeField] BaseGun defaultGunPrefab;
 
     void Awake()
     {
@@ -24,6 +26,9 @@ public class GameController : MonoBehaviour
         }
 
         Player = Instantiate(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        if (defaultGunPrefab)
+            Player.EquipmentManager.Equip(Instantiate(defaultGunPrefab));
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 }

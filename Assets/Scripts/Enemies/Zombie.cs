@@ -11,7 +11,10 @@ public class Zombie : MonoBehaviour, IDamagable
     public Rigidbody Rigidbody { get; private set; }
     [SerializeField] float fallSpeedRadians = 0.2f;
 
-    private float health = 100f;
+    [Space]
+    [SerializeField] float health = 100f;
+    [SerializeField] float moneyReward = 100f;
+
     public bool IsDead { get { return health <= 0f; } }
 
     private Transform target;
@@ -33,16 +36,20 @@ public class Zombie : MonoBehaviour, IDamagable
         this.target = target;
     }
 
-    public void Damage(float amount)
+    public void Damage(float amount, Player shooter)
     {
         health -= amount;
 
         if (health <= 0f)
-            Die();
+            Die(shooter);
     }
 
-    private void Die()
+    bool dead = false;
+    private void Die(Player shooter)
     {
+        if (dead)
+            return;
+
         Agent.enabled = false;
         Rigidbody.isKinematic = false;
         Rigidbody.constraints = RigidbodyConstraints.FreezeRotationY;
@@ -50,6 +57,9 @@ public class Zombie : MonoBehaviour, IDamagable
 
         this.gameObject.SetLayerRecursively(LayerManager.Effects);
 
+        shooter.AddMoney(moneyReward);
         Destroy(this.gameObject, 15);
+
+        dead = true;
     }
 }

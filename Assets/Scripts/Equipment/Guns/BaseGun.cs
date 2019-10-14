@@ -37,12 +37,12 @@ public class BaseGun : Equipment
     private float shootTimer = 0f;
     private float inaccuracy = 0f;
 
-    public override void PrimaryUse()
+    public override void PrimaryUse(Player user)
     {
-        Shoot();
+        Shoot(user);
     }
 
-    public override void SecondaryUse()
+    public override void SecondaryUse(Player user)
     {}
 
     public void Reload()
@@ -50,14 +50,14 @@ public class BaseGun : Equipment
         clip.DoClipEffect();
     }
 
-    protected virtual void Shoot()
+    protected virtual void Shoot(Player shooter)
     {
         if (Time.time > shootTimer)
         {
             shootTimer = Time.time + fireDelay;
 
             Projectile pro = Instantiate(projectilePrefab, muzzlePosition.position, muzzlePosition.rotation * CalculateSpread());
-            pro.Shoot(bulletSpeed, bulletDamage);
+            pro.Shoot(shooter, bulletSpeed, bulletDamage);
 
             this.transform.localPosition += kickBack;
 

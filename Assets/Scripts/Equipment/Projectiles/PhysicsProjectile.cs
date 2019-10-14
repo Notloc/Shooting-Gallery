@@ -11,10 +11,13 @@ public class PhysicsProjectile : Projectile
     [SerializeField] float gravity = 0f;
     [SerializeField] float airResistance = 0f;
 
+    Player shooter;
+
     Vector3 velocity = Vector3.zero;
     float damage = 0f;
-    public override void Shoot(float velocity, float damage)
+    public override void Shoot(Player shooter, float velocity, float damage)
     {
+        this.shooter = shooter;
         this.velocity = this.transform.forward * velocity;
         this.damage = damage;
     }
@@ -30,7 +33,7 @@ public class PhysicsProjectile : Projectile
         {
             IDamagable damagable = hit.collider.GetComponentInParent<IDamagable>();
             if (damagable != null)
-                damagable.Damage(damage);
+                damagable.Damage(damage, shooter);
 
             ImpactEffect impact = hit.collider.GetComponentInParent<ImpactEffect>();
             if (impact)

@@ -7,5 +7,5 @@ public abstract class Projectile : MonoBehaviour
     [SerializeField] Sprite bulletHole;
     public Sprite BulletHole { get { return bulletHole; } }
 
-    public abstract void Shoot(float velocity, float damage);
+    public abstract void Shoot(Player shooter, float velocity, float damage);
 }

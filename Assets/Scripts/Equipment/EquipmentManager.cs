@@ -37,8 +37,14 @@ public class EquipmentManager : MonoBehaviour
         equipmentSlots.Add(EquipmentSlot.RightHand, rightHandTransform);
     }
 
-    public bool Equip(Equipment newEquip)
+    public bool Equip(Equipment newEquip, bool dropOthers= false)
     {
+        if (dropOthers)
+        {
+            Unequip(EquipmentSlot.LeftHand);
+            Unequip(EquipmentSlot.RightHand);
+        }
+
         EquipmentSlot slotId = SlotTypeToOpenSlot(newEquip.SlotType);
         if (slotId == EquipmentSlot.None)
             return false;
@@ -54,30 +60,41 @@ public class EquipmentManager : MonoBehaviour
         return true;
     }
 
+    public bool Unequip(EquipmentSlot slot)
+    {
+        if (equipment.ContainsKey(slot))
+        {
+            var equip = equipment[slot];
+            equipment.Remove(slot);
+            OnUnequip?.Invoke(equip);
+            Destroy(equip.gameObject);
+        }
+        return false;
+    }
 
-    public void UsePrimary()
+    public void UsePrimary(Player player)
     {
         EquipmentSlot slot = EquipmentSlot.RightHand;
         if (equipment.ContainsKey(slot))
-            equipment[slot].PrimaryUse();
+            equipment[slot].PrimaryUse(player);
         else
         {
             slot = EquipmentSlot.LeftHand;
             if (equipment.ContainsKey(slot))
-                equipment[slot].SecondaryUse();
+                equipment[slot].SecondaryUse(player);
         }
     }
 
-    public void UseSecondary()
+    public void UseSecondary(Player player)
     {
         EquipmentSlot slot = EquipmentSlot.LeftHand;
         if (equipment.ContainsKey(slot))
-            equipment[slot].PrimaryUse();
+            equipment[slot].PrimaryUse(player);
         else
         {
             slot = EquipmentSlot.RightHand;
             if (equipment.ContainsKey(slot))
-                equipment[slot].SecondaryUse();
+                equipment[slot].SecondaryUse(player);
         }
     }
 

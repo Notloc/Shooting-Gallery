@@ -47,6 +47,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 7839269442442264116, guid: 4df7cf9ddce9c5b4192a01db142d3811,
     type: 3}
   spawnPoint: {fileID: 8230010347582602716}
+  defaultGunPrefab: {fileID: 6185868176998094275, guid: 2ce44ad0ae3ee1d44812fa1e27169d40,
+    type: 3}
 --- !u!1 &2632500750787369296
 GameObject:
   m_ObjectHideFlags: 0

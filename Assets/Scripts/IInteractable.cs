@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IDamagable
+public interface IInteractable
 {
-    void Damage(float amount, Player shooter);
+    void Interact(Player player);
 }
