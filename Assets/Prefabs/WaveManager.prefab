@@ -253,5 +253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   zombieManager: {fileID: 4332831742652000593}
+  waveGuiPrefab: {fileID: 5911553726858973809, guid: 188cfb294b04f4b46ab472006c1a57bb,
+    type: 3}
   baseWaveSize: 5
   waveSizeFactor: 0.4
+  intermissionLength: 45

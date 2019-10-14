@@ -22,4 +22,6 @@ public static class ControlBindings
 
     public static string FIRE_PRIMARY = "Fire";
     public static string FIRE_SECONDARY = "Fire2";
+
+    public static string CHANGE_VIEW = "Change View";
 }

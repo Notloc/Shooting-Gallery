@@ -25,9 +25,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float minCameraPitch = -80f;
     [SerializeField] float maxCameraPitch = 80f;
 
-    [Header("Hand Sway Options")]
-    [SerializeField] float maxHandRotation = 7f;
-    [SerializeField] float handRotationSpeed = 4f;
+    [Header("Camera Options")]
+    [SerializeField] Vector3 firstPersonCamera;
+    [SerializeField] Vector3 firstPersonHands;
+
+    [SerializeField] Vector3 thirdPersonCamera;
+    [SerializeField] Vector3 thirdPersonHands;
+
 
     [Header("Ground Raycast Options")]
     [SerializeField] Vector3 groundCastOffset;
@@ -65,6 +69,28 @@ public class PlayerController : MonoBehaviour
         hasMovementInput = inputX != 0 || inputY != 0;
         isSprinting = Input.GetButton(ControlBindings.SPRINT);
         jumped = jumped || Input.GetButtonDown(ControlBindings.JUMP);
+
+
+        if (Input.GetButtonDown(ControlBindings.CHANGE_VIEW))
+            ChangeView();
+    }
+
+    bool thirdPerson = false;
+    private void ChangeView()
+    {
+        thirdPerson = !thirdPerson;
+
+        if (thirdPerson)
+        {
+            camera.transform.localPosition = thirdPersonCamera;
+            hands.localPosition = thirdPersonHands;
+        }
+        else
+        {
+            camera.transform.localPosition = firstPersonCamera;
+            hands.localPosition = firstPersonHands;
+        }
+
     }
 
     private void UpdateGrounded()
@@ -95,7 +121,6 @@ public class PlayerController : MonoBehaviour
         isGrounded = false;
     }
 
-    Quaternion targetHandRotation = Quaternion.identity;
     private void Rotate()
     {
         // Rotate player's body
@@ -106,8 +131,7 @@ public class PlayerController : MonoBehaviour
         currentCameraRot = Mathf.Clamp(currentCameraRot, minCameraPitch, maxCameraPitch);
         camera.transform.localRotation = Quaternion.Euler(currentCameraRot, 0f, 0f);
 
-        // Rotate hands
-        hands.localRotation = Quaternion.Slerp(hands.localRotation, targetHandRotation, Time.deltaTime * handRotationSpeed);
+        hands.localRotation = camera.transform.localRotation;
     }
 
     private void Move()
@@ -147,16 +171,6 @@ public class PlayerController : MonoBehaviour
 
             rigidbody.velocity = newVelocity;
         }
-        
-
-        //Update target hand rotation
-        Vector3 localVelocity = Quaternion.Inverse(rigidbody.rotation) * rigidbody.velocity;
-
-        float x, y;
-        x = Mathf.Clamp(localVelocity.x,-maxHandRotation, maxHandRotation);
-        y = Mathf.Clamp(localVelocity.y, -maxHandRotation, maxHandRotation);
-
-        targetHandRotation = Quaternion.Euler(y, -x, 0f);
     }
 
     /// <summary>

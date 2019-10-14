@@ -10,8 +10,6 @@ public class GameController : MonoBehaviour
 
     [Header("Required Reference")]
     [SerializeField] Player playerPrefab;
-
-    [Header("Options")]
     [SerializeField] Transform spawnPoint;
 
     void Awake()
