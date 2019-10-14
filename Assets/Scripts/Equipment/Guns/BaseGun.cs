@@ -31,6 +31,10 @@ public class BaseGun : Equipment
     [Header(" - Clip")]
     [SerializeField] Clip clip;
 
+    [Header(" - Sound")]
+    [SerializeField] AudioSource gunAudioSource;
+    [SerializeField] AudioClip gunShot;
+
     public override EquipmentSlotType SlotType { get { return slotType; } }
     public override Vector3 HoldPosition { get { return holdPosition; } }
 
@@ -58,12 +62,19 @@ public class BaseGun : Equipment
 
             Projectile pro = Instantiate(projectilePrefab, muzzlePosition.position, muzzlePosition.rotation * CalculateSpread());
             pro.Shoot(shooter, bulletSpeed, bulletDamage);
+            PlayGunShot();
 
             this.transform.localPosition += kickBack;
 
             IncreaseInaccuracy(inaccuracyPerShot);
             ApplyInaccuracy();
         }
+    }
+
+    private void PlayGunShot()
+    {
+        gunAudioSource.pitch = Random.Range(0.95f, 1.1f);
+        gunAudioSource.PlayOneShot(gunShot);
     }
 
     private Quaternion CalculateSpread()
